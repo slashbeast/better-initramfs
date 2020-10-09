@@ -9,5 +9,11 @@ case "$1" in
     'renew'|'bound')
         printf 'binit_net_addr=%s\n' "${ip}/${mask}"
         printf 'binit_net_gw=%s\n' "${router}"
-    ;;  
+
+	echo -n > /etc/resolv.conf
+	[ -n "$domain" ] && echo search $domain >> /etc/resolv.conf
+	for i in $dns ; do
+		echo nameserver $i >> /etc/resolv.conf
+	done
+    ;;
 esac
